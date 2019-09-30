@@ -87,14 +87,21 @@ class AnsiToWin32(object):
         # to support the ANSI codes.
         conversion_supported = on_windows and winapi_test()
 
+        # check if this is a TTY or if the FORCE_COLOR environment variable
+        # has been set and NO_COLOR has not been set.
+        isatty = not self.stream.closed and self.stream.isatty()
+        force_color = 'FORCE_COLOR' in os.environ.keys()
+        no_color = 'NO_COLOR' in os.environ.keys()
+        color_allowed = (isatty or force_color) and not no_color
+
         # should we strip ANSI sequences from our output?
         if strip is None:
-            strip = conversion_supported or (not self.stream.closed and not self.stream.isatty())
+            strip = conversion_supported or (not self.stream.closed and not color_allowed)
         self.strip = strip
 
         # should we should convert ANSI sequences into win32 calls?
         if convert is None:
-            convert = conversion_supported and not self.stream.closed and self.stream.isatty()
+            convert = conversion_supported and (not self.stream.closed and color_allowed)
         self.convert = convert
 
         # dict of ansi codes to win32 functions and parameters
