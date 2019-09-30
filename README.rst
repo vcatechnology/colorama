@@ -174,12 +174,16 @@ init(autoreset=False):
 init(strip=None):
     Pass ``True`` or ``False`` to override whether ansi codes should be
     stripped from the output. The default behaviour is to strip if on Windows
-    or if output is redirected (not a tty).
+    or if output is redirected (not a tty), and if the ``FORCE_COLOR``
+    environment variable is not set to ``1``, ``y`` or ``Y`` or ``NO_COLOR`` is
+    set to ``1``, ``y`` or ``Y``.
 
 init(convert=None):
     Pass ``True`` or ``False`` to override whether to convert ANSI codes in the
     output into win32 calls. The default behaviour is to convert if on Windows
-    and output is to a tty (terminal).
+    and output is to a tty (terminal), or the ``FORCE_COLOR`` environment
+    variable is set to ``1``, ``y`` or ``Y`` and ``NO_COLOR`` is not set to
+    ``1``, ``y`` or ``Y``.
 
 init(wrap=True):
     On Windows, colorama works by replacing ``sys.stdout`` and ``sys.stderr``
