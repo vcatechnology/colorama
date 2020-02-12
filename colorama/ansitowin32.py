@@ -101,7 +101,7 @@ class AnsiToWin32(object):
 
         # should we should convert ANSI sequences into win32 calls?
         if convert is None:
-            convert = conversion_supported and (not self.stream.closed and color_allowed)
+            convert = conversion_supported and not self.stream.closed and color_allowed
         self.convert = convert
 
         # dict of ansi codes to win32 functions and parameters
