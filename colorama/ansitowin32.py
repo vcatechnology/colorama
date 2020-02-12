@@ -96,12 +96,12 @@ class AnsiToWin32(object):
 
         # should we strip ANSI sequences from our output?
         if strip is None:
-            strip = conversion_supported or (not self.stream.closed and not color_allowed)
+            strip = conversion_supported or not color_allowed
         self.strip = strip
 
         # should we should convert ANSI sequences into win32 calls?
         if convert is None:
-            convert = conversion_supported and not self.stream.closed and color_allowed
+            convert = conversion_supported and color_allowed
         self.convert = convert
 
         # dict of ansi codes to win32 functions and parameters
